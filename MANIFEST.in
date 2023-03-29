@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include bio_integ *.css
+recursive-include bio_integ *.csv
+recursive-include bio_integ *.html
+recursive-include bio_integ *.ico
+recursive-include bio_integ *.js
+recursive-include bio_integ *.json
+recursive-include bio_integ *.md
+recursive-include bio_integ *.png
+recursive-include bio_integ *.py
+recursive-include bio_integ *.svg
+recursive-include bio_integ *.txt
+recursive-exclude bio_integ *.pyc
