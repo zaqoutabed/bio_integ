@@ -18,7 +18,7 @@ def execute():
 		if checkinout[c]['punch_state_display'] == "Check In":
 			log_type = 'IN'
 		if checkinout[c]['punch_state_display'] == "Check Out":
-			log_type = 'Out'
+			log_type = 'OUT'
 		employee = frappe.db.get_value("Employee",{"code":checkinout[c]["emp_code"]},"name")
 		if not frappe.db.exists("Employee",{"code":checkinout[c]["emp_code"]}):
 			log = frappe.new_doc("Bio logs")
@@ -26,18 +26,21 @@ def execute():
 			log.save()
 			frappe.db.commit()
 		else:
-			create_checkin(employee,checkinout[c]['punch_time'],log_type)
+			time = checkinout[c]['punch_time']
+			location = checkinout[c]['area_alias']
+			create_checkin(employee,time,location,log_type)
 
 
 
 
 
 
-def create_checkin(employee,time,log_type):
+def create_checkin(employee,time,location,log_type):
 	echeck = frappe.new_doc("Employee Checkin")
-	if not frappe.db.exists("Employee Checkin",{"time":time,"type":log_type,"employee":employee}):
+	if not frappe.db.exists("Employee Checkin",{"time":time,"log_type":log_type,"employee":employee}):
 		echeck.employee = employee
 		echeck.time = time
 		echeck.log_type = log_type
+		echeck.device_id = location
 		echeck.save()
 		frappe.db.commit()

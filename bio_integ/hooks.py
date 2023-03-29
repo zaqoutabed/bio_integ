@@ -105,7 +105,13 @@ app_license = "d"
 
 # Scheduled Tasks
 # ---------------
-
+scheduler_events = {
+    "cron": {
+        "*/2 * * * *": [
+            "bio_integ.api.execute"
+        ],
+    }
+}
 # scheduler_events = {
 #	"all": [
 #		"bio_integ.tasks.all"
