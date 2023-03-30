@@ -1,38 +1,50 @@
 import json,requests
 import frappe
+from datetime import datetime
+from frappe.utils import date_diff
 
-authorization = frappe.db.get_single_value("Biometric Settings", "key")
-url = frappe.db.get_single_value("Biometric Settings", "url")
+
+
+
+settings = frappe.get_doc("Biometric Settings")
 headers = {
    	"Content-Type": "application/json",
-   	"Authorization": authorization
+   	"Authorization": settings.key,
 }
 
+payload = {
+	"page_size": settings.size
+}
+
+param = "?start_time={}".format(settings.start_time)
 
 def execute():
-	response = requests.request('GET',url,headers=headers)
+	response = requests.request('GET',settings.url+param,headers=headers,params=payload)
 	data = response.json()
 	checkinout = data['data']
 	log_type = ""
 	for c in range(len(checkinout)):
 		if checkinout[c]['punch_state_display'] == "Check In":
 			log_type = 'IN'
-		if checkinout[c]['punch_state_display'] == "Check Out":
+		elif checkinout[c]['punch_state_display'] == "Check Out":
 			log_type = 'OUT'
 		employee = frappe.db.get_value("Employee",{"code":checkinout[c]["emp_code"]},"name")
 		if not frappe.db.exists("Employee",{"code":checkinout[c]["emp_code"]}):
-			log = frappe.new_doc("Bio logs")
-			log.log = "code {} is not attached to any employee".format(checkinout[c]["emp_code"])
-			log.save()
-			frappe.db.commit()
+			if not frappe.db.exists("Bio logs",{"code":checkinout[c]["emp_code"]}):
+				log = frappe.new_doc("Bio logs")
+				log.code = checkinout[c]["emp_code"]
+				log.log = "code {} is not attached to any employee".format(checkinout[c]["emp_code"])
+				log.save()
 		else:
 			time = checkinout[c]['punch_time']
 			location = checkinout[c]['area_alias']
+			# time_obj = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
+			# current = datetime(2022, 12, 28, 00, 00, 00, 00000)
+			# if time_obj < current:
+			# 	pass
+			# else:
 			create_checkin(employee,time,location,log_type)
-
-
-
-
+	return len(checkinout)
 
 
 def create_checkin(employee,time,location,log_type):
@@ -44,3 +56,14 @@ def create_checkin(employee,time,location,log_type):
 		echeck.device_id = location
 		echeck.save()
 		frappe.db.commit()
+
+
+def update_start_time():
+	start = datetime.strptime(settings.start_time, "%Y-%m-%d %H:%M:%S")
+	if date_diff(datetime.today(),start) ==32:
+		settings.start_time = frappe.utils.add_months(start, 1)
+		settings.save()
+		
+
+def si():
+	print(settings.size)
