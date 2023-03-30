@@ -111,7 +111,7 @@ scheduler_events = {
             "bio_integ.api.execute"
         ],
 	    	"0 0 1 * *": [
-            	"bio_integ.api.update_start_time"
+            "bio_integ.api.update_start_time"
       	  ],
     }
 }

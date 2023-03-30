@@ -44,7 +44,7 @@ def execute():
 			# 	pass
 			# else:
 			create_checkin(employee,time,location,log_type)
-	return len(checkinout)
+	return print(checkinout[0])
 
 
 def create_checkin(employee,time,location,log_type):
@@ -64,6 +64,3 @@ def update_start_time():
 		settings.start_time = frappe.utils.add_months(start, 1)
 		settings.save()
 		
-
-def si():
-	print(settings.size)
