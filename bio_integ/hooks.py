@@ -107,12 +107,12 @@ app_license = "d"
 # ---------------
 scheduler_events = {
     "cron": {
-        "*/4 * * * *": [
+        "0 * * * *": [
             "bio_integ.api.execute"
         ],
-	    	"0 0 1 * *": [
+	    "0 0 1 * *": [
             "bio_integ.api.update_start_time"
-      	  ],
+      	],
     }
 }
 # scheduler_events = {
