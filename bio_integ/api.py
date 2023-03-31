@@ -37,7 +37,7 @@ def execute():
 				log.save()
 		else:
 			time = checkinout[c]['punch_time']
-			location = checkinout[c]['area_alias']
+			location = checkinout[c]['terminal_alias']
 			# time_obj = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
 			# current = datetime(2022, 12, 28, 00, 00, 00, 00000)
 			# if time_obj < current:
