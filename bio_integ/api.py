@@ -28,8 +28,8 @@ def execute():
 			log_type = 'IN'
 		elif checkinout[c]['punch_state_display'] == "Check Out":
 			log_type = 'OUT'
-		employee = frappe.db.get_value("Employee",{"code":checkinout[c]["emp_code"]},"name")
-		if not frappe.db.exists("Employee",{"code":checkinout[c]["emp_code"]}):
+		employee = frappe.db.get_value("Employee",{"attendance_device_id":checkinout[c]["emp_code"]},"name")
+		if not frappe.db.exists("Employee",{"attendance_device_id":checkinout[c]["emp_code"]}):
 			if not frappe.db.exists("Bio logs",{"code":checkinout[c]["emp_code"]}):
 				log = frappe.new_doc("Bio logs")
 				log.code = checkinout[c]["emp_code"]
