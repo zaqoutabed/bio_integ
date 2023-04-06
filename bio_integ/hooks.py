@@ -113,6 +113,9 @@ scheduler_events = {
 	    "0 0 * * *": [
             "bio_integ.api.update_start_time"
       	],
+		"0 0 * * 0": [
+			"bio_integ.api.update_key"
+		]
     }
 }
 # scheduler_events = {

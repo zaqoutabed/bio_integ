@@ -9,7 +9,17 @@ frappe.ui.form.on('Biometric Settings', {
 			freeze: true,
 			callback: function(r) {
 				if (r.message){
-					console.log(":::::;")
+				}
+			}
+		});
+	},
+	update_key: function(frm) {
+		cur_frm.call({
+			method: 'bio_integ.api.update_key',
+			args: {},
+			freeze: true,
+			callback: function(r) {
+				if (r.message){
 				}
 			}
 		});

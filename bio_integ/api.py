@@ -2,6 +2,7 @@ import json,requests
 import frappe
 from datetime import datetime
 from frappe.utils import date_diff
+from bio_integ.token import get_token
 
 
 
@@ -64,4 +65,9 @@ def update_start_time():
 	if date_diff(datetime.today(),start) ==32:
 		settings.start_time = frappe.utils.add_months(start, 1)
 		settings.save()
+
+@frappe.whitelist()
+def update_key():
+	settings.key = get_token()
+	settings.save()
 		
