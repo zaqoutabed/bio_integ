@@ -10,7 +10,7 @@ settings = frappe.get_doc("Biometric Settings")
 def get_token():
 	headers = {
 		"Content-Type": "application/json",
-	}
+	} 
 	data = {
 		"username": settings.username,
 		"password": get_decrypted_password("Biometric Settings","Biometric Settings","password")
