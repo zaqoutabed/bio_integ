@@ -8,11 +8,16 @@
  "field_order": [
   "fetch_checkin",
   "url",
+  "token_url",
   "start_time",
   "size",
   "column_break_2",
   "update_key",
-  "key"
+  "key",
+  "username_and_password_section",
+  "username",
+  "column_break_10",
+  "password"
  ],
  "fields": [
   {
@@ -48,12 +53,36 @@
    "fieldname": "update_key",
    "fieldtype": "Button",
    "label": "Update key"
+  },
+  {
+   "fieldname": "username_and_password_section",
+   "fieldtype": "Section Break",
+   "label": "Username and Password"
+  },
+  {
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "label": "Username"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password"
+  },
+  {
+   "fieldname": "column_break_10",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "token_url",
+   "fieldtype": "Data",
+   "label": "Token URL"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2023-04-06 11:18:33.694577",
+ "modified": "2023-04-07 09:34:07.941612",
  "modified_by": "Administrator",
  "module": "Biometric Integration",
  "name": "Biometric Settings",

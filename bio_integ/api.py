@@ -40,11 +40,6 @@ def execute():
 		else:
 			time = checkinout[c]['punch_time']
 			location = checkinout[c]['terminal_alias']
-			# time_obj = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
-			# current = datetime(2022, 12, 28, 00, 00, 00, 00000)
-			# if time_obj < current:
-			# 	pass
-			# else:
 			create_checkin(employee,time,location,log_type)
 	return print(checkinout[0])
 
@@ -71,3 +66,4 @@ def update_key():
 	settings.key = get_token()
 	settings.save()
 		
+
