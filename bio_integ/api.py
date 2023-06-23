@@ -21,7 +21,7 @@ param = "?start_time={}".format(settings.start_time)
 
 @frappe.whitelist()
 def execute():
-	response = requests.request('GET',settings.url+param,headers=headers,
+	response = requests.get(settings.url+param,headers=headers,
 									params=payload,
 									timeout=settings.timeout)
 	data = response.json()
