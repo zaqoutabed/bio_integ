@@ -21,7 +21,7 @@ param = "?start_time={}".format(settings.start_time)
 
 @frappe.whitelist()
 def execute():
-	response = requests.request('GET',settings.url+param,headers=headers,params=payload)
+	response = requests.request('GET',settings.url+param,headers=headers,params=payload,timeout=1500)
 	data = response.json()
 	checkinout = data['data']
 	log_type = ""
@@ -40,7 +40,7 @@ def execute():
 		else:
 			time = checkinout[c]['punch_time']
 			location = checkinout[c]['terminal_alias']
-			create_checkin(employee,time,location,log_type)
+			# create_checkin(employee,time,location,log_type)
 	return print(checkinout[0])
 
 
