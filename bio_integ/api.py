@@ -48,7 +48,9 @@ def execute():
 
 def create_checkin(employee,time,location,log_type):
 	echeck = frappe.new_doc("Employee Checkin")
-	if not frappe.db.exists("Employee Checkin",{"time":time,"log_type":log_type,"employee":employee}):
+	if frappe.db.exists("Employee Checkin",{"time":time,"employee":employee}):
+		pass
+	else:
 		echeck.employee = employee
 		echeck.time = time
 		echeck.log_type = log_type
