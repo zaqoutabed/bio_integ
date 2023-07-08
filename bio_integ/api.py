@@ -43,7 +43,7 @@ def execute():
 			time = checkinout[c]['punch_time']
 			location = checkinout[c]['terminal_alias']
 			create_checkin(employee,time,location,log_type)
-	return print(checkinout[0])
+	return data
 
 
 def create_checkin(employee,time,location,log_type):
@@ -69,5 +69,6 @@ def update_start_time():
 def update_key():
 	settings.key = get_token()
 	settings.save()
+	return get_token()
 		
 

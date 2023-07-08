@@ -9,6 +9,7 @@ frappe.ui.form.on('Biometric Settings', {
 			freeze: true,
 			callback: function(r) {
 				if (r.message){
+					frappe.msgprint("Employee Checkin Fetched successefully")
 				}
 			}
 		});
@@ -20,6 +21,7 @@ frappe.ui.form.on('Biometric Settings', {
 			freeze: true,
 			callback: function(r) {
 				if (r.message){
+					frappe.msgprint("Key updated successefully")
 				}
 			}
 		});
