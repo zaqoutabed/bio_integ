@@ -10,8 +10,8 @@ from frappe.utils import now_datetime
 
 settings = frappe.get_doc("Biometric Settings")
 headers = {
-   	"Content-Type": "application/json",
-   	"Authorization": settings.key,
+	"Content-Type": "application/json",
+	"Authorization": settings.key,
 }
 
 payload = {
@@ -45,9 +45,9 @@ def execute():
 			location = checkinout[c]['terminal_alias']
 			create_checkin(employee,time,location,log_type)
 			shift_list = frappe.get_all('Shift Type', 'name', {'enable_auto_attendance':'1'}, as_list=True)
-		    for row in shift_list:
-		        frappe.set_value('Shift Type', row[0], 'last_sync_of_checkin', now_datetime())
-		        frappe.db.commit()
+			for row in shift_list:
+				frappe.set_value('Shift Type', row[0], 'last_sync_of_checkin', now_datetime())
+				frappe.db.commit()
 	return data
 
 
