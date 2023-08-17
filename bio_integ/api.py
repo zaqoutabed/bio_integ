@@ -3,6 +3,7 @@ import frappe
 from datetime import datetime
 from frappe.utils import date_diff
 from bio_integ.token import get_token
+from frappe.utils import now_datetime
 
 
 
@@ -43,6 +44,10 @@ def execute():
 			time = checkinout[c]['punch_time']
 			location = checkinout[c]['terminal_alias']
 			create_checkin(employee,time,location,log_type)
+			shift_list = frappe.get_all('Shift Type', 'name', {'enable_auto_attendance':'1'}, as_list=True)
+		    for row in shift_list:
+		        frappe.set_value('Shift Type', row[0], 'last_sync_of_checkin', now_datetime())
+		        frappe.db.commit()
 	return data
 
 
