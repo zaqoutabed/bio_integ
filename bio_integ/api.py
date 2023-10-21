@@ -13,7 +13,6 @@ headers = {
 		"Content-Type": "application/json",
 		"Authorization": settings.key,
 }
-
 payload = {
 	"page_size": settings.size
 }
@@ -29,23 +28,24 @@ def execute():
 	checkinout = data['data']
 	log_type = ""
 	for c in range(len(checkinout)):
-		# print(checkinout[c]['punch_state'])
-		punch_dict = {"0":"IN","1":"OUT"}
-		employee = frappe.db.get_value("Employee",{"attendance_device_id":checkinout[c]["emp_code"]},"name")
-		if not frappe.db.exists("Employee",{"attendance_device_id":checkinout[c]["emp_code"]}):
-			if not frappe.db.exists("Bio logs",{"code":checkinout[c]["emp_code"]}):
-				log = frappe.new_doc("Bio logs")
-				log.code = checkinout[c]["emp_code"]
-				log.log = "code {} is not attached to any employee".format(checkinout[c]["emp_code"])
-				log.save()
-		else:
-			time = checkinout[c]['punch_time']
-			location = checkinout[c]['terminal_alias']
-			create_checkin(employee,time,location,punch_dict[checkinout[c]['punch_state']])
-			shift_list = frappe.get_all('Shift Type', 'name', {'enable_auto_attendance':'1'}, as_list=True)
-			for row in shift_list:
-				frappe.set_value('Shift Type', row[0], 'last_sync_of_checkin', now_datetime())
-				frappe.db.commit()
+		if checkinout[c]['punch_state'] in ["0","1"]:
+			print(checkinout[c]['punch_state'])
+			punch_dict = {"0":"IN","1":"OUT"}
+			employee = frappe.db.get_value("Employee",{"attendance_device_id":checkinout[c]["emp_code"]},"name")
+			if not frappe.db.exists("Employee",{"attendance_device_id":checkinout[c]["emp_code"]}):
+				if not frappe.db.exists("Bio logs",{"code":checkinout[c]["emp_code"]}):
+					log = frappe.new_doc("Bio logs")
+					log.code = checkinout[c]["emp_code"]
+					log.log = "code {} is not attached to any employee".format(checkinout[c]["emp_code"])
+					log.save()
+			else:
+				time = checkinout[c]['punch_time']
+				location = checkinout[c]['terminal_alias']
+				create_checkin(employee,time,location,punch_dict[checkinout[c]['punch_state']])
+				shift_list = frappe.get_all('Shift Type', 'name', {'enable_auto_attendance':'1'}, as_list=True)
+				for row in shift_list:
+					frappe.set_value('Shift Type', row[0], 'last_sync_of_checkin', now_datetime())
+					frappe.db.commit()
 	return data
 
 
