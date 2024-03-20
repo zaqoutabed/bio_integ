@@ -28,9 +28,8 @@ def execute():
 	checkinout = data['data']
 	log_type = ""
 	for c in range(len(checkinout)):
-		if checkinout[c]['punch_state'] in ["0","1"]:
-			print(checkinout[c]['punch_state'])
-			punch_dict = {"0":"IN","1":"OUT"}
+		if checkinout[c]['punch_state'] in ["0","1","255"]:
+			punch_dict = {"0":"IN","1":"OUT","255":""}
 			employee = frappe.db.get_value("Employee",{"attendance_device_id":checkinout[c]["emp_code"]},"name")
 			if not frappe.db.exists("Employee",{"attendance_device_id":checkinout[c]["emp_code"]}):
 				if not frappe.db.exists("Bio logs",{"code":checkinout[c]["emp_code"]}):
@@ -41,6 +40,7 @@ def execute():
 			else:
 				time = checkinout[c]['punch_time']
 				location = checkinout[c]['terminal_alias']
+				print("ccc +{}+".format(punch_dict[checkinout[c]['punch_state']]))
 				create_checkin(employee,time,location,punch_dict[checkinout[c]['punch_state']])
 				shift_list = frappe.get_all('Shift Type', 'name', {'enable_auto_attendance':'1'}, as_list=True)
 				for row in shift_list:
