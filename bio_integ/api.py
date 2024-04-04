@@ -16,16 +16,18 @@ headers = {
 payload = {
 	"page_size": settings.size,
 }
+param = "?start_time={}".format(settings.start_time)
 
-datetime = datetime.strptime(settings.start_time, '%Y-%m-%d %H:%M:%S')
 
 @frappe.whitelist()
 def execute():
-	response = requests.get(settings.url,headers=headers,
+	response = requests.get(settings.url+param,headers=headers,
 									params=payload,
 									timeout=settings.timeout)
+
 	data = response.json()
 	checkinout = data['data']
+	print(len(data['data']))
 	log_type = ""
 	l = 0
 	code = []
